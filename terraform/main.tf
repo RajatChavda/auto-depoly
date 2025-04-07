@@ -31,9 +31,9 @@ resource "aws_security_group" "allow_ssh_http" {
 
 # Defined the EC2 instance
 resource "aws_instance" "nginx_server" {
-  ami           = "ami-00bb6a80f01f03502"
+  ami           = "ami-0e35ddab05955cf57"
   instance_type = "t2.micro"
-  key_name      = "mihir"
+  key_name      = "key"
 
   # Used `vpc_security_group_ids` instead of `security_groups`
   vpc_security_group_ids = [aws_security_group.allow_ssh_http.id]
@@ -46,7 +46,7 @@ resource "aws_instance" "nginx_server" {
   provisioner "local-exec" {
     command = <<EOT
       echo "[web]" > ../ansible-setup/inventory
-      echo "nginx-server ansible_host=${self.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/mihir.pem " >> ../ansible-setup/inventory
+      echo "nginx-server ansible_host=${self.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/key.pem " >> ../ansible-setup/inventory
     EOT
   }
 }
